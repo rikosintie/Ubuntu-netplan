@@ -1,0 +1,19 @@
+network:
+  version: 2
+  renderer: NetworkManager  # Default renderer for unspecified interfaces
+  ethernets:
+    enp60s0:
+      renderer: networkd  # Only this interface uses networkd
+      dhcp4: yes
+      optional: true
+  bridges:
+    br0:
+      renderer: networkd  # Bridge uses networkd
+      interfaces: [enp60s0]
+      dhcp4: yes
+      dhcp4-overrides:
+        route-metric: 1000 
+      parameters:
+        stp: false
+        forward-delay: 0
+      optional: true
