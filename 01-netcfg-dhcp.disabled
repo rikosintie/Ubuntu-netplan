@@ -4,7 +4,7 @@ network:
   ethernets:
     enp60s0:
       renderer: networkd  # Only this interface uses networkd
-      dhcp4: yes
+      dhcp4: no           # <--- CHANGED TO NO
       optional: true
   bridges:
     br0:
