@@ -1,0 +1,22 @@
+mw-nplan_mode_switch() {
+    local mode=$1
+       
+    if [[ "$mode" == "static" ]]; then
+        sudo gnome-text-editor /etc/netplan/02-netcfg-static.disabled
+        sudo gnome-text-editor /etc/netplan/02-netcfg-static.yaml
+        sudo mv /etc/netplan/01-netcfg-dhcp.yaml /etc/netplan/01-netcfg-dhcp.disabled
+        sudo mv /etc/netplan/02-netcfg-static.disabled /etc/netplan/02-netcfg-static.yaml
+        echo "Switching to Static IP mode."
+    elif [[ "$mode" == "dhcp" ]]; then
+        sudo mv /etc/netplan/02-netcfg-static.yaml /etc/netplan/02-netcfg-static.disabled
+        sudo mv /etc/netplan/01-netcfg-dhcp.disabled /etc/netplan/01-netcfg-dhcp.yaml
+        echo "Switching to DHCP mode."
+    else
+        echo "Usage: netplan_mode_switch [static|dhcp]"
+        return 1
+    fi
+    # Apply changes using your working alias/command
+    sudo netplan apply
+    # Optional verification step
+    ip a show dev br0
+}
